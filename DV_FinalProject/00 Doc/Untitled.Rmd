@@ -28,7 +28,7 @@ This crosstab blends our data for award winners with batting data to determine w
 ![](../02 Tableau/awards stats crosstab.png)
 
 ###Barchart of Team Homeruns
-In one of the first visualizations we made this semester, we visualized how often teams hit homeruns. To do this we created a measure called average at bats per homerun (At bats/homeruns). The New York Yankees average the fewest at bats between homeruns with only 45.68. The league average over the past 25 years is 56.86 at bats per homerun, so the Yankees are significantly above average in homerun frequency. The teams who hit homeruns the least frequently are the Miami Marlins (87.62), the Kansas City Royals (69.05), and the St. Louis Cardinals (68.45)
+In one of the first visualizations we made this semester, we visualized how often teams hit homeruns. To do this we created a measure called average at bats per homerun (At bats/homeruns). The New York Yankees average the fewest at bats between homeruns. The Yankees are significantly above average in homerun frequency. The teams who hit homeruns the least frequently are the Miami Marlins, the Kansas City Royals, and the St. Louis Cardinals.
 
 ![](../02 Tableau/2HRBarchart.png)
 
