@@ -15,11 +15,11 @@ shinyUI(fluidPage(
                    "Ending Year:",
                    min = 1986,
                    max = 2007,
-                   value = 2007, sep = '')), mainPanel(plotOutput("scatplot")))),
+                   value = 2007, sep = '')),actionButton(inputId = "clicks", label = "Run")), mainPanel(plotOutput("scatplot"))),
     tabPanel(title = "Histogram for Hits by Team and Year", sidebarLayout(sidebarPanel("Teams and Years",
       selectInput("teams",                                                                             "Select Team(s):",
                           c("Anaheim Angels (1997-2004)" = "ANA",
-                            "Diamondbacks" = "ARI",
+                            "Arizona Diamondbacks (1998-2014)" = "ARI",
                             "Braves" = "ATL",
                             "Orioles" = "BAL",
                             "Red Sox" = "BOS",
@@ -48,9 +48,9 @@ shinyUI(fluidPage(
                             "Rays" = "TBA",
                             "Rangers" = "TEX",
                             "Blue Jays" = "TOR",
-                            "Nationals (2005-2014)" = "WAS"
+                            "Washington Nationals (2005-2014)" = "WAS"
                             )),
       numericInput("years", "Select Year (1986-2014): ", 1997, min = 1986, max = 2014, step = 1),
       actionButton(inputId = "clicks", label = "Run")),
-      mainPanel("Histogram for Hits by Team and Year",plotOutput("hist")))))
+      mainPanel(plotOutput("hist")))))
     ))

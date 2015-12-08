@@ -38,8 +38,8 @@ shinyServer(function(input, output) {
     })
     
     output$scatplot <- renderPlot({
-      Beg_Year <- reactive({input$mindate})
-      End_Year <- reactive({input$maxdate})
+      Beg_Year <- eventReactive(input$clicks,{input$mindate})
+      End_Year <- eventReactive(input$clicks,{input$maxdate})
       
       playname <- dplyr::right_join(play, bat, by = "PLAYERID")
       
@@ -81,7 +81,7 @@ shinyServer(function(input, output) {
       qplot(ndf$H,
           geom="histogram",
           binwidth = 25,  
-          main = "Histogram for Hits", 
+          main = "Histogram for Hits by Team and Year", 
           xlab = "Hits",  
           fill=I("blue"), 
           col=I("red"), 
