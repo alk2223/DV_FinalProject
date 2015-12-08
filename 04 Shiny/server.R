@@ -11,7 +11,7 @@ shinyServer(function(input, output) {
   
     bat <- data.frame(fromJSON(getURL(URLencode('skipper.cs.utexas.edu:5001/rest/native/?query="SELECT * from BATTING;"'),httpheader=c(DB='jdbc:oracle:thin:@sayonara.microlab.cs.utexas.edu:1521:orcl', USER='C##cs329e_cca628', PASS='orcl_cca628', MODE='native_mode', MODEL='model', returnDimensions = 'False', returnFor = 'JSON'), verbose = TRUE) ))
   
-    award <- data.frame(fromJSON(getURL(URLencode('skipper.cs.utexas.edu:5001/rest/native/?query="SELECT * from AWARDSPLAYERS;"'),httpheader=c(DB='jdbc:oracle:thin:@sayonara.microlab.cs.utexas.edu:1521:orcl', USER='C##cs329e_cca628', PASS='orcl_cca628', MODE='native_mode', MODEL='model', returnDimensions = 'False', returnFor = 'JSON'), verbose = TRUE) ))
+    award <- data.frame(fromJSON(getURL(URLencode('skipper.cs.utexas.edu:5001/rest/native/?query="SELECT * from AWARDSPLAYERS;"'),httpheader=c(DB='jdbc:oracle:thin:@sayonara.microlab.cs.utexas.edu:1521:orcl', USER='C##cs329e_alk2223', PASS='orcl_alk2223', MODE='native_mode', MODEL='model', returnDimensions = 'False', returnFor = 'JSON'), verbose = TRUE) ))
     
     play <- data.frame(fromJSON(getURL(URLencode('skipper.cs.utexas.edu:5001/rest/native/?query="SELECT * from PlayerNames;"'),httpheader=c(DB='jdbc:oracle:thin:@sayonara.microlab.cs.utexas.edu:1521:orcl', USER='C##cs329e_cca628', PASS='orcl_cca628', MODE='native_mode', MODEL='model', returnDimensions = 'False', returnFor = 'JSON'), verbose = TRUE) ))
     
@@ -38,8 +38,8 @@ shinyServer(function(input, output) {
     })
     
     output$scatplot <- renderPlot({
-      Beg_Year <- eventReactive(input$clicks,{input$mindate})
-      End_Year <- eventReactive(input$clicks,{input$maxdate})
+      Beg_Year <- reactive({input$mindate})
+      End_Year <- reactive({input$maxdate})
       
       playname <- dplyr::right_join(play, bat, by = "PLAYERID")
       
@@ -81,7 +81,7 @@ shinyServer(function(input, output) {
       qplot(ndf$H,
           geom="histogram",
           binwidth = 25,  
-          main = "Histogram for Hits by Team and Year", 
+          main = "Histogram for Hits", 
           xlab = "Hits",  
           fill=I("blue"), 
           col=I("red"), 
@@ -89,4 +89,34 @@ shinyServer(function(input, output) {
           xlim=c(1,200))
     
   })
+    team_choice <- eventReactive(input$clicks,{input$choices})
+    
+    output$barplot <- renderPlot({
+      df <- data.frame(fromJSON(getURL(URLencode('skipper.cs.utexas.edu:5001/rest/native/?query="select * from BATTING where AB is not NULL"'),httpheader=c(DB='jdbc:oracle:thin:@sayonara.microlab.cs.utexas.edu:1521:orcl', USER='C##cs329e_cca628', PASS='orcl_cca628', MODE='native_mode', MODEL='model', returnDimensions = 'False', returnFor = 'JSON'), verbose = TRUE) ))
+      
+      ndf <- df %>% filter(TEAMID %in% team_choice()) %>% group_by(TEAMID)%>% summarize(absum = sum(AB), hrsum = sum(HR), value = absum/hrsum)
+      
+      ndf1 <- ndf %>% ungroup %>% summarize(trend=mean(value))
+      plot_bar <- ggplot() + 
+        coord_cartesian() + 
+        scale_x_discrete() +
+        scale_y_continuous() +
+        labs(title='Power Hitting by Team') +
+        labs(x=paste("TeamID"), y=paste("At bats per homerun")) +
+        layer(data=ndf, 
+              mapping=aes(x=TEAMID, y=value), 
+              stat="identity", 
+              stat_params=list(), 
+              geom="bar",
+              geom_params=list(colour="blue"), 
+              position=position_identity()
+        ) +
+        layer(data=ndf1, 
+              mapping=aes(yintercept = trend), 
+              geom="hline",
+              geom_params=list(colour="red")
+        ) 
+      
+      return(plot_bar)
+    })
 })

@@ -6,6 +6,8 @@ Batting Statistics Visualization
 
 In this document, I will explain the steps taken to create a graphical visualizaiton of batting statistics from 1986-2014.
 
+https://baseballstats.shinyapps.io/Final_Visualizations
+
 ###Boxplot of team Homeruns
 
 Here, we wanted to visualize the difference in power hitting by team. To do so, we created a boxplot for each MLB team's homerun hitting in 2013. As you can see, teams like Arizona and Miami are not known for their power hitting. Their boxplots show little deviation and a median of 7 and 3 respectively. On the other hand, some teams have a number of power hitters. Baltimore's Nelson Cruz hit the most homeruns in the league with 53 in 2013, while the Cleveland Indians were, on average, the best power hitting team in 2013 with a team homerun median of 11.
@@ -14,7 +16,7 @@ Here, we wanted to visualize the difference in power hitting by team. To do so, 
 ![](../02 Tableau/HR Boxplots.png)
 
 ### Texas Rangers Hitting
-After looking at the hitting distribution of Texas Ranger's batters we decided to delve deeper using shiny. 
+Texas Ranger hitting distribution for the 1989 season.
 ![](../02 Tableau/rangers histogram by year.png)
 
 ###Scatterplot of Homerun Race

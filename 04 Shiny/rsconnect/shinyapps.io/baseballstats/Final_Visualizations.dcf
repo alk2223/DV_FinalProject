@@ -1,8 +1,8 @@
 name: Final_Visualizations
 account: baseballstats
 server: shinyapps.io
-bundleId: 326904
+bundleId: 326959
 url: https://baseballstats.shinyapps.io/Final_Visualizations
-when: 1449596730.05701
+when: 1449600030.50031
 asMultiple: FALSE
 asStatic: FALSE
